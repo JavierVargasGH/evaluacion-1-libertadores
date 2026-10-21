@@ -5,6 +5,9 @@ import { paises, clubes } from './datos.js'
 const app = express()
 app.use(cors())
 
+// Formato ordenado para el navegador
+app.set('json spaces', 2)
+
 const PORT = 3000
 
 // 1. GET /api/clubes y GET /api/clubes?pais=X
@@ -39,7 +42,7 @@ app.get('/api/clubes/:id', (req, res) => {
 
 // 3. GET /api/titulos/:club
 app.get('/api/titulos/:club', (req, res) => {
-  const nombreBuscado = req.params.club.replace(/-/g, ' ').toLowerCase()
+  const nombreBuscado = req.params.club.toLowerCase()
   const club = clubes.find(c => c.nombre.toLowerCase() === nombreBuscado)
 
   if (!club) {
@@ -49,7 +52,7 @@ app.get('/api/titulos/:club', (req, res) => {
   res.status(200).json(club.titulos)
 })
 
-// Iniciar servidor
+// Inicialización obligatoria del servidor
 app.listen(PORT, () => {
   console.log(`🏆 API escuchando en http://localhost:${PORT}`)
 })
